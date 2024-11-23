@@ -1,29 +1,14 @@
-import React, { useState } from 'react';
-import { Todolist } from './Todolist';
+import { useState } from 'react';
+import { TaskType, Todolist } from './Todolist';
 import { v1 } from 'uuid';
 import './App.css';
-
-// Hi guys!
-//1.Let`s wrap up our bunch  of filters in a function.
-//How can we do this? We can wrap all our goodies into a new function:
-//     const filteredTasks=()=>{
-//          let tasksForTodolist = tasks;
-//
-//          if (filter === "active") {
-//          return   tasksForTodolist = tasks.filter(t => !t.isDone);
-//          }
-//          if (filter === "completed") {
-//            return  tasksForTodolist = tasks.filter(t => t.isDone);
-//          }
-//          return tasksForTodolist
-//     }
 
 //2.Let`s replace our if`s with  switch.
 
 export type FilterValuesType = 'all' | 'active' | 'completed';
 
 function App() {
-  let [tasks, setTasks] = useState([
+  let [tasks, setTasks] = useState<TaskType[]>([
     { id: v1(), title: 'HTML&CSS', isDone: true },
     { id: v1(), title: 'JS', isDone: true },
     { id: v1(), title: 'ReactJS', isDone: false },
@@ -32,19 +17,19 @@ function App() {
   ]);
 
   function removeTask(id: string) {
-    let filteredTasks = tasks.filter(t => t.id !== id);
+    const filteredTasks = tasks.filter(t => t.id !== id);
     setTasks(filteredTasks);
   }
 
   function addTask(title: string) {
-    let task = { id: v1(), title: title, isDone: false };
-    let newTasks = [task, ...tasks];
+    const task = { id: v1(), title: title, isDone: false };
+    const newTasks = [task, ...tasks];
     setTasks(newTasks);
   }
 
-  let [filter, setFilter] = useState<FilterValuesType>('all');
+  const [filter, setFilter] = useState<FilterValuesType>('all');
 
-  const filteredTasks = () => {
+  const filteredTasks = (): TaskType[] => {
     let tasksForTodolist = tasks;
 
     if (filter === 'active') {
