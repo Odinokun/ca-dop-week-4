@@ -41,7 +41,7 @@ export function Todolist(props: PropsType) {
           onChange={onChangeHandler}
           onKeyDown={onKeyPressHandler}
         />
-        <button onClick={addTask}>+</button>
+        <button onClick={addTask}>add task</button>
       </div>
       <ul>
         {props.tasks.map(t => {
