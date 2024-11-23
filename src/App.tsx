@@ -3,8 +3,6 @@ import { TaskType, Todolist } from './Todolist';
 import { v1 } from 'uuid';
 import './App.css';
 
-//2.Let`s replace our if`s with  switch.
-
 export type FilterValuesType = 'all' | 'active' | 'completed';
 
 function App() {
@@ -15,35 +13,28 @@ function App() {
     { id: v1(), title: 'Rest API', isDone: false },
     { id: v1(), title: 'GraphQL', isDone: false },
   ]);
-
-  function removeTask(id: string) {
-    const filteredTasks = tasks.filter(t => t.id !== id);
-    setTasks(filteredTasks);
-  }
-
-  function addTask(title: string) {
-    const task = { id: v1(), title: title, isDone: false };
-    const newTasks = [task, ...tasks];
-    setTasks(newTasks);
-  }
-
   const [filter, setFilter] = useState<FilterValuesType>('all');
 
-  const filteredTasks = (): TaskType[] => {
-    let tasksForTodolist = tasks;
+  const removeTask = (id: string) => setTasks(tasks.filter(t => t.id !== id));
 
-    if (filter === 'active') {
-      return (tasksForTodolist = tasks.filter(t => !t.isDone));
-    } else if (filter === 'completed') {
-      return (tasksForTodolist = tasks.filter(t => t.isDone));
+  const addTask = (title: string) => {
+    const task = { id: v1(), title: title, isDone: false };
+    setTasks([task, ...tasks]);
+  };
+
+  const filteredTasks = (): TaskType[] => {
+    switch (filter) {
+      case 'active':
+        return tasks.filter(t => !t.isDone);
+      case 'completed':
+        return tasks.filter(t => t.isDone);
+      default:
+        return tasks;
     }
-    return tasksForTodolist;
   };
   const tasksForTodolist = filteredTasks();
 
-  function changeFilter(value: FilterValuesType) {
-    setFilter(value);
-  }
+  const changeFilter = (value: FilterValuesType) => setFilter(value);
 
   return (
     <div className='App'>
